@@ -1,0 +1,119 @@
+<!--
+  ~ Copyright 2011-2015 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html>
+<head>
+    <script src="libs/jquery-1.11.2.min.js"></script>
+    <script src="libs/sockjs-0.3.4.min.js"></script>
+    <script src="libs/highcharts-4.1.7.min.js"></script>
+</head>
+<script src="libs/vertxbus.js"></script>
+<body>
+<h1>Polyglot Dashboard</h1>
+
+<div id="container" style="height: 400px; min-width: 310px"></div>
+
+<script>
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    var chart;
+    $('#container').highcharts({
+        chart: {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10,
+            events: {
+                load: function () {
+                    var that = this;
+                    chart = this;
+                    var eb = new vertx.EventBus(window.location.origin + "/eventbus");
+                    eb.onopen = function () {
+                        console.log("Eventbus bridge opened");
+                        eb.registerHandler("data", function (data) {
+                            console.log("Receiving data", data);
+                            var series = getSeriesForProducer(chart, that.series, data["id"]);
+                            var x = (new Date()).getTime();
+                            series.addPoint([x, data["value"]], false, true);
+                            that.redraw();
+                        });
+                    };
+                }
+            }
+        },
+        title: {
+            text: 'Collected data'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'Value'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: []
+    });
+
+
+    function getSeriesForProducer(chart, series, producer) {
+        for (var i =0; i < chart.series.length; i++) {
+            var s = chart.series[i];
+            if (s.name == producer) {
+                return s;
+            }
+        }
+        console.log("Series not found for " + producer);
+        // Not found, create new series
+        s = {
+            name: producer,
+            data: (function () {
+                var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                for (i = -19; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: 0
+                    });
+                }
+                return data;
+            }()),
+            color: (series && series.length == 0 ? "blue" : "red")
+        };
+        return chart.addSeries(s, false);
+    }
+
+</script>
+
+
+</body>
+</html>
