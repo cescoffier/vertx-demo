@@ -1,0 +1,11 @@
+{
+  "http.port" : 8080,
+  // JDBC
+  "url": "jdbc:hsqldb:file:db/whiskies",
+  "driver_class": "org.hsqldb.jdbcDriver",
+
+  // Shell
+  "telnetOptions": {
+    "port" : 5000
+  }
+}
