@@ -1,0 +1,14 @@
+= Cheatsheets
+
+[[Whisky]]
+== Whisky
+
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[name]]`name`|`String`|-
+|[[origin]]`origin`|`String`|-
+|===
+
