@@ -13,13 +13,18 @@ public class MultipleHttpServerDemo extends AbstractVerticle {
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
-    vertx.deployVerticle(MultipleHttpServerDemo.class.getName(), new DeploymentOptions().setInstances(2));
+    vertx.deployVerticle(
+        MultipleHttpServerDemo.class.getName(),
+          new DeploymentOptions().setInstances(2));
   }
 
   @Override
   public void start() throws Exception {
-    vertx.createHttpServer().requestHandler(req -> {
-      req.response().end("Served from " + Thread.currentThread().getName());
+    vertx.createHttpServer().requestHandler(
+        req -> {
+          req.response()
+              .end("Served from "
+                  + Thread.currentThread().getName());
     }).listen(8080);
   }
 }

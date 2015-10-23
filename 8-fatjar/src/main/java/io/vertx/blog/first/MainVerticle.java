@@ -11,7 +11,9 @@ public class MainVerticle extends AbstractVerticle {
 
   @Override
   public void start() throws Exception {
-    vertx.deployVerticle(ShellVerticle.class.getName(), new DeploymentOptions().setConfig(config()));
-    vertx.deployVerticle(WebAppVerticle.class.getName(), new DeploymentOptions().setConfig(config()));
+    vertx.deployVerticle(ShellVerticle.class.getName(),
+        new DeploymentOptions().setConfig(config()));
+    vertx.deployVerticle(WebAppVerticle.class.getName(),
+        new DeploymentOptions().setConfig(config()));
   }
 }

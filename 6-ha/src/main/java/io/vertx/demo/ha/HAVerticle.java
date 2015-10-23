@@ -17,8 +17,12 @@ import java.lang.management.ManagementFactory;
 public class HAVerticle extends AbstractVerticle {
 
   public static void main(String[] args) {
-    Vertx.clusteredVertx(new VertxOptions().setHAEnabled(true), vertx -> {
-      vertx.result().deployVerticle(HAVerticle.class.getName(), new DeploymentOptions().setHa(true));
+    Vertx.clusteredVertx(new VertxOptions()
+        .setHAEnabled(true), vertx -> {
+          vertx.result()
+              .deployVerticle(
+                  HAVerticle.class.getName(),
+                  new DeploymentOptions().setHa(true));
     });
   }
 
@@ -26,7 +30,8 @@ public class HAVerticle extends AbstractVerticle {
   @Override
   public void start() throws Exception {
     vertx.createHttpServer().requestHandler(req -> {
-      final String name = ManagementFactory.getRuntimeMXBean().getName();
+      final String name =
+          ManagementFactory.getRuntimeMXBean().getName();
       req.response().end("Request served by " + name);
     }).listen(8080);
   }

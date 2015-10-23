@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class Consumer {
 
+  private static Logger logger = Logger.getAnonymousLogger();
 
   public static void main(String[] args) {
     Vertx.clusteredVertx(new VertxOptions(), ar -> {
@@ -24,25 +25,33 @@ public class Consumer {
 
       configureSockJSBridge(vertx);
 
-      vertx.eventBus().consumer("events", m -> {
-        JsonObject json = (JsonObject) m.body();
-        Logger.getAnonymousLogger().info("Receiving " + json.getString("message") + " from " + json.getString("from"));
+      vertx.eventBus()
+          .consumer("events",
+              m -> {
+                JsonObject json = (JsonObject) m.body();
+                logger.info("Receiving "
+                    + json.getString("message")
+                    + " from " + json.getString("from"));
       });
     });
   }
 
   private static void configureSockJSBridge(Vertx vertx) {
     Router router = Router.router(vertx);
+
     SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
     BridgeOptions options = new BridgeOptions()
-        .addInboundPermitted(new PermittedOptions().setAddress("events"))
-        .addOutboundPermitted(new PermittedOptions().setAddress("events"));
+        .addInboundPermitted(
+            new PermittedOptions().setAddress("events"))
+        .addOutboundPermitted(
+            new PermittedOptions().setAddress("events"));
     sockJSHandler.bridge(options);
+
     router.route("/eventbus/*").handler(sockJSHandler);
+    router.route("/assets/*")
+        .handler(StaticHandler.create("assets"));
 
-    // Static handler
-    router.route("/assets/*").handler(StaticHandler.create("assets"));
-
-    vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+    vertx.createHttpServer()
+        .requestHandler(router::accept).listen(8080);
   }
 }

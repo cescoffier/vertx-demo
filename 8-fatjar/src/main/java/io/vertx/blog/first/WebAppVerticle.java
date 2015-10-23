@@ -28,20 +28,8 @@ public class WebAppVerticle extends AbstractVerticle {
 
   private JDBCClient jdbc;
 
-  /**
-   * This method is called when the verticle is deployed. It creates a HTTP server and registers a simple request
-   * handler.
-   * <p/>
-   * Notice the `listen` method. It passes a lambda checking the port binding result. When the HTTP server has been
-   * bound on the port, it call the `complete` method to inform that the starting has completed. Else it reports the
-   * error.
-   *
-   * @param fut the future
-   */
   @Override
   public void start(Future<Void> fut) {
-
-    // Create a JDBC client
     jdbc = JDBCClient.createShared(vertx, config(), "My-Whisky-Collection");
 
     startBackend(
@@ -66,10 +54,14 @@ public class WebAppVerticle extends AbstractVerticle {
     // Create a router object.
     Router router = Router.router(vertx);
 
-    router.route("/assets/*").handler(StaticHandler.create("assets"));
+    router.route("/assets/*")
+        .handler(StaticHandler.create("assets"));
 
-    router.get("/api/whiskies").handler(this::getAll);
-    router.route("/api/whiskies*").handler(BodyHandler.create());
+    router.get("/api/whiskies")
+        .handler(this::getAll);
+    router.route("/api/whiskies*")
+        .handler(BodyHandler.create());
+
     router.post("/api/whiskies").handler(this::addOne);
     router.get("/api/whiskies/:id").handler(this::getOne);
     router.put("/api/whiskies/:id").handler(this::updateOne);
@@ -88,7 +80,8 @@ public class WebAppVerticle extends AbstractVerticle {
         );
   }
 
-  private void completeStartup(AsyncResult<HttpServer> http, Future<Void> fut) {
+  private void completeStartup(AsyncResult<HttpServer> http,
+                               Future<Void> fut) {
     if (http.succeeded()) {
       System.out.println("Application started");
       fut.complete();
@@ -100,20 +93,21 @@ public class WebAppVerticle extends AbstractVerticle {
 
   @Override
   public void stop() throws Exception {
-    // Close the JDBC client.
     jdbc.close();
   }
 
   private void addOne(RoutingContext routingContext) {
     jdbc.getConnection(ar -> {
-      // Read the request's content and create an instance of Whisky.
-      final Whisky whisky = Json.decodeValue(routingContext.getBodyAsString(),
+      final Whisky whisky =
+          Json.decodeValue(routingContext.getBodyAsString(),
           Whisky.class);
+
       SQLConnection connection = ar.result();
       insert(whisky, connection, (r) ->
           routingContext.response()
               .setStatusCode(201)
-              .putHeader("content-type", "application/json; charset=utf-8")
+              .putHeader("content-type",
+                  "application/json; charset=utf-8")
               .end(Json.encodePrettily(r.result())));
     });
 
@@ -125,13 +119,13 @@ public class WebAppVerticle extends AbstractVerticle {
       routingContext.response().setStatusCode(400).end();
     } else {
       jdbc.getConnection(ar -> {
-        // Read the request's content and create an instance of Whisky.
         SQLConnection connection = ar.result();
         select(id, connection, result -> {
           if (result.succeeded()) {
             routingContext.response()
                 .setStatusCode(200)
-                .putHeader("content-type", "application/json; charset=utf-8")
+                .putHeader("content-type",
+                    "application/json; charset=utf-8")
                 .end(Json.encodePrettily(result.result()));
           } else {
             routingContext.response()
@@ -149,12 +143,15 @@ public class WebAppVerticle extends AbstractVerticle {
       routingContext.response().setStatusCode(400).end();
     } else {
       jdbc.getConnection(ar ->
-          update(id, json, ar.result(), (whisky) -> {
+          update(id, json, ar.result(),
+              (whisky) -> {
             if (whisky.failed()) {
-              routingContext.response().setStatusCode(404).end();
+              routingContext.response().setStatusCode(404)
+                  .end();
             } else {
               routingContext.response()
-                  .putHeader("content-type", "application/json; charset=utf-8")
+                  .putHeader("content-type",
+                      "application/json; charset=utf-8")
                   .end(Json.encodePrettily(whisky.result()));
             }
           })
@@ -169,8 +166,10 @@ public class WebAppVerticle extends AbstractVerticle {
     } else {
       jdbc.getConnection(ar -> {
         SQLConnection connection = ar.result();
-        connection.execute("DELETE FROM Whisky WHERE id='" + id + "'",
-            result -> routingContext.response().setStatusCode(204).end());
+        connection
+            .execute("DELETE FROM Whisky WHERE id='" + id + "'",
+            result -> routingContext.response()
+                .setStatusCode(204).end());
       });
     }
   }
@@ -179,9 +178,12 @@ public class WebAppVerticle extends AbstractVerticle {
     jdbc.getConnection(ar -> {
       SQLConnection connection = ar.result();
       connection.query("SELECT * FROM Whisky", result -> {
-        List<Whisky> whiskies = result.result().getRows().stream().map(Whisky::new).collect(Collectors.toList());
+        List<Whisky> whiskies =
+            result.result().getRows().stream()
+                .map(Whisky::new).collect(Collectors.toList());
         routingContext.response()
-            .putHeader("content-type", "application/json; charset=utf-8")
+            .putHeader("content-type",
+                "application/json; charset=utf-8")
             .end(Json.encodePrettily(whiskies));
       });
     });
@@ -201,7 +203,8 @@ public class WebAppVerticle extends AbstractVerticle {
               fut.fail(ar.cause());
               return;
             }
-            connection.query("SELECT * FROM Whisky", select -> {
+            connection.query("SELECT * FROM Whisky",
+                select -> {
               if (select.failed()) {
                 connection.close();
                 fut.fail(ar.cause());

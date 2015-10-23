@@ -18,7 +18,8 @@ public class PersistenceServiceVerticle extends AbstractVerticle {
       if (ar.failed()) {
         System.err.println(ar.cause());
       } else {
-        ar.result().deployVerticle(PersistenceServiceVerticle.class.getName(),
+        ar.result().deployVerticle(
+            PersistenceServiceVerticle.class.getName(),
             new DeploymentOptions().setConfig(new JsonObject()
                 .put("url", "jdbc:hsqldb:file:db/whiskies")
                 .put("driver_class", "org.hsqldb.jdbcDriver")
@@ -32,6 +33,8 @@ public class PersistenceServiceVerticle extends AbstractVerticle {
   @Override
   public void start() throws Exception {
     service = new PersistenceServiceImpl(vertx, config());
-    ProxyHelper.registerService(PersistenceService.class, vertx, service, "service.persistence");
+    ProxyHelper.registerService(
+        PersistenceService.class, vertx, service,
+        "service.persistence");
   }
 }

@@ -17,8 +17,10 @@ def options = [
         ]
 ]
 
-router.route("/eventbus/*").handler(SockJSHandler.create(vertx).bridge(options))
-router.route("/assets/*").handler(StaticHandler.create("assets"))
+router.route("/eventbus/*")
+        .handler(SockJSHandler.create(vertx).bridge(options))
+router.route("/assets/*")
+        .handler(StaticHandler.create("assets"))
 
 def httpServer = vertx.createHttpServer()
 httpServer.requestHandler(router.&accept).listen(8080)

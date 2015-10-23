@@ -106,7 +106,8 @@ public class PersistenceServiceImpl implements PersistenceService {
           connection.query("SELECT * FROM Whisky", select -> {
             if (select.failed()) {
               connection.close();
-              completion.handle(Future.failedFuture(ar.cause()));
+              completion.handle(
+                  Future.failedFuture(ar.cause()));
               return;
             }
 

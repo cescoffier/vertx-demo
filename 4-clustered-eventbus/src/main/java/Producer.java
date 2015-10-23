@@ -9,10 +9,15 @@ import io.vertx.core.json.JsonObject;
 public class Producer {
 
   public static void main(String[] args) {
-    Vertx.clusteredVertx(new VertxOptions(), ar -> {
-      Vertx vertx = ar.result();
-      vertx.setPeriodic(1000, l -> {
-        vertx.eventBus().publish("events", new JsonObject().put("message", "hello").put("from", "java producer"));
+    Vertx.clusteredVertx(new VertxOptions(),
+        ar -> {
+          Vertx vertx = ar.result();
+          vertx.setPeriodic(1000,
+              l -> {
+                vertx.eventBus().publish("events",
+                        new JsonObject()
+                            .put("message", "hello")
+                            .put("from", "java producer"));
       });
     });
   }

@@ -10,12 +10,18 @@ import java.util.logging.Logger;
 public class Consumer {
 
 
+  private static Logger logger = Logger.getAnonymousLogger();
+
   public static void main(String[] args) {
-    Vertx.clusteredVertx(new VertxOptions(), ar -> {
-      Vertx vertx = ar.result();
-      vertx.eventBus().consumer("events", m -> {
-        JsonObject json = (JsonObject) m.body();
-        Logger.getAnonymousLogger().info("Receiving " + json.getString("message") + " from " + json.getString("from"));
+    Vertx.clusteredVertx(new VertxOptions(),
+        ar -> {
+          Vertx vertx = ar.result();
+          vertx.eventBus().consumer("events",
+              m -> {
+                JsonObject json = (JsonObject) m.body();
+                logger.info("Receiving "
+                    + json.getString("message")
+                    + " from " + json.getString("from"));
       });
     });
   }

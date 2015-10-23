@@ -20,7 +20,8 @@ builder.processHandler( { process ->
       process.write "Querying database... \n"
       connection.query("SELECT * FROM Whisky", {
         result ->
-          result.result().get("results").each { it -> process.write("${it}\n")}
+          result.result().get("results")
+                  .each { it -> process.write("${it}\n")}
           process.end()
       });
     }
