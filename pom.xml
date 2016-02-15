@@ -6,7 +6,7 @@
 
   <groupId>io.vertx.demo</groupId>
   <artifactId>demo</artifactId>
-  <version>3.1</version>
+  <version>3.2</version>
 
   <packaging>pom</packaging>
 
@@ -14,24 +14,30 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.1</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-lang-groovy</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-dropwizard-metrics</artifactId>
+      <version>3.2.1</version>
     </dependency>
 
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.1</version>
     </dependency>
 
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-hazelcast</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.1</version>
     </dependency>
   </dependencies>
 
@@ -50,15 +56,10 @@
   </build>
 
   <modules>
-    <module>1-handlers</module>
-    <module>2-simple-http</module>
-    <module>3-add-thread</module>
-    <module>4-clustered-eventbus</module>
-    <module>5-node-client</module>
-    <module>6-ha</module>
     <module>7-polyglot</module>
     <module>8-fatjar</module>
     <module>9-services</module>
+    <module>0-slide-snippets</module>
   </modules>
 
 </project>

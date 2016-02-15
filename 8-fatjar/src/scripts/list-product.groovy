@@ -1,6 +1,6 @@
 import io.vertx.groovy.ext.jdbc.JDBCClient
 import io.vertx.groovy.ext.shell.command.CommandBuilder
-import io.vertx.groovy.ext.shell.registry.CommandRegistry
+import io.vertx.groovy.ext.shell.command.CommandRegistry
 
 def builder = CommandBuilder.command("product-list")
 builder.processHandler( { process ->
@@ -28,6 +28,6 @@ builder.processHandler( { process ->
   })
 });
 
-def registry = CommandRegistry.get(vertx)
-registry.registerCommand(builder.build())
+def registry = CommandRegistry.getShared(vertx)
+registry.registerCommand(builder.build(vertx))
 

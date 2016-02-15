@@ -20,7 +20,7 @@
     <script src="libs/sockjs-0.3.4.min.js"></script>
     <script src="libs/highcharts-4.1.7.min.js"></script>
 </head>
-<script src="libs/vertxbus.js"></script>
+<script src="libs/vertx-eventbus.js"></script>
 <body>
 <h1>Polyglot Dashboard</h1>
 
@@ -42,14 +42,14 @@
                 load: function () {
                     var that = this;
                     chart = this;
-                    var eb = new vertx.EventBus(window.location.origin + "/eventbus");
+                    var eb = new EventBus(window.location.origin + "/eventbus");
                     eb.onopen = function () {
                         console.log("Eventbus bridge opened");
-                        eb.registerHandler("data", function (data) {
+                        eb.registerHandler("data", function (err, data) {
                             console.log("Receiving data", data);
-                            var series = getSeriesForProducer(chart, that.series, data["id"]);
+                            var series = getSeriesForProducer(chart, that.series, data.body["id"]);
                             var x = (new Date()).getTime();
-                            series.addPoint([x, data["value"]], false, true);
+                            series.addPoint([x, data.body["value"]], true, true);
                             that.redraw();
                         });
                     };

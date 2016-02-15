@@ -7,7 +7,7 @@
   <parent>
     <groupId>io.vertx.demo</groupId>
     <artifactId>demo</artifactId>
-    <version>3.1</version>
+    <version>3.2</version>
   </parent>
 
   <artifactId>7-polyglot</artifactId>
@@ -18,12 +18,12 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-lang-ruby</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.0</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-lang-js</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.0</version>
     </dependency>
   </dependencies>
 

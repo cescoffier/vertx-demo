@@ -6,6 +6,7 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.demo.persistence.PersistenceService;
 import io.vertx.demo.persistence.Whisky;
+import io.vertx.ext.dropwizard.DropwizardMetricsOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -14,7 +15,11 @@ import io.vertx.ext.web.handler.StaticHandler;
 public class WebAppVerticle extends AbstractVerticle {
 
   public static void main(String[] args) {
-    Vertx.clusteredVertx(new VertxOptions(), ar -> {
+    //-javaagent:/.../agents/jolokia-jvm.jar=port=7777,host=localhost
+    Vertx.clusteredVertx(new VertxOptions()
+        .setMetricsOptions(new DropwizardMetricsOptions().setEnabled(true)
+            .setJmxEnabled(true)
+            .setJmxDomain("vertx-http-app")), ar -> {
       if (ar.failed()) {
         System.err.println(ar.cause());
       } else {
@@ -116,15 +121,15 @@ public class WebAppVerticle extends AbstractVerticle {
       routingContext.response().setStatusCode(400).end();
     } else {
       persistence.updateOne(Integer.valueOf(id), new Whisky(json.getString("name"), json.getString("origin")),
-          whisky  -> {
-        if (whisky.failed()) {
-          routingContext.response().setStatusCode(404).end();
-        } else {
-          routingContext.response()
-              .putHeader("content-type", "application/json; charset=utf-8")
-              .end(Json.encodePrettily(whisky.result()));
-        }
-      });
+          whisky -> {
+            if (whisky.failed()) {
+              routingContext.response().setStatusCode(404).end();
+            } else {
+              routingContext.response()
+                  .putHeader("content-type", "application/json; charset=utf-8")
+                  .end(Json.encodePrettily(whisky.result()));
+            }
+          });
     }
   }
 

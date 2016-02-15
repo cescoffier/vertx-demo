@@ -1,0 +1,9 @@
+{
+  "name": "web-consumer",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "vertx3-eventbus-client": "3.2.1",
+    "jquery": "2.1.4"
+  }
+}

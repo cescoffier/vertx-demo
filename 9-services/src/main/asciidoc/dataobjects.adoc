@@ -8,6 +8,7 @@
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
+|[[id]]`id`|`Number (int)`|-
 |[[name]]`name`|`String`|-
 |[[origin]]`origin`|`String`|-
 |===

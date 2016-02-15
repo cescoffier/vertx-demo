@@ -24,9 +24,6 @@ import io.vertx.demo.persistence.Whisky
 import io.vertx.core.json.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
-/**
- * @author <a href="http://escoffier.me">Clement Escoffier</a>
-*/
 @CompileStatic
 public class PersistenceService {
   private final def io.vertx.demo.persistence.PersistenceService delegate;

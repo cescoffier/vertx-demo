@@ -24,7 +24,6 @@ var JPersistenceService = io.vertx.demo.persistence.PersistenceService;
 var Whisky = io.vertx.demo.persistence.Whisky;
 
 /**
-
  @class
 */
 var PersistenceService = function(j_val) {
@@ -95,7 +94,7 @@ var PersistenceService = function(j_val) {
    */
   this.addOne = function(whisky, result) {
     var __args = arguments;
-    if (__args.length === 2 && typeof __args[0] === 'object' && typeof __args[1] === 'function') {
+    if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_persistenceService["addOne(io.vertx.demo.persistence.Whisky,io.vertx.core.Handler)"](whisky != null ? new Whisky(new JsonObject(JSON.stringify(whisky))) : null, function(ar) {
       if (ar.succeeded()) {
         result(utils.convReturnDataObject(ar.result()), null);
@@ -115,7 +114,7 @@ var PersistenceService = function(j_val) {
    */
   this.updateOne = function(id, newValues, result) {
     var __args = arguments;
-    if (__args.length === 3 && typeof __args[0] ==='number' && typeof __args[1] === 'object' && typeof __args[2] === 'function') {
+    if (__args.length === 3 && typeof __args[0] ==='number' && (typeof __args[1] === 'object' && __args[1] != null) && typeof __args[2] === 'function') {
       j_persistenceService["updateOne(int,io.vertx.demo.persistence.Whisky,io.vertx.core.Handler)"](id, newValues != null ? new Whisky(new JsonObject(JSON.stringify(newValues))) : null, function(ar) {
       if (ar.succeeded()) {
         result(utils.convReturnDataObject(ar.result()), null);
@@ -174,7 +173,7 @@ PersistenceService.createProxy = function(vertx, address) {
  */
 PersistenceService.create = function(vertx, config) {
   var __args = arguments;
-  if (__args.length === 2 && typeof __args[0] === 'object' && __args[0]._jdel && typeof __args[1] === 'object') {
+  if (__args.length === 2 && typeof __args[0] === 'object' && __args[0]._jdel && (typeof __args[1] === 'object' && __args[1] != null)) {
     return utils.convReturnVertxGen(JPersistenceService["create(io.vertx.core.Vertx,io.vertx.core.json.JsonObject)"](vertx._jdel, utils.convParamJsonObject(config)), PersistenceService);
   } else throw new TypeError('function invoked with invalid arguments');
 };

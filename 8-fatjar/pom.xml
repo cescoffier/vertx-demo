@@ -7,22 +7,22 @@
   <parent>
     <groupId>io.vertx.demo</groupId>
     <artifactId>demo</artifactId>
-    <version>3.1</version>
+    <version>3.2</version>
   </parent>
 
   <artifactId>8-fatjar</artifactId>
-  <version>3.1</version>
+  <version>3.2</version>
 
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-jdbc-client</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.1</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-shell</artifactId>
-      <version>3.1.0</version>
+      <version>3.2.1</version>
     </dependency>
     <dependency>
       <groupId>org.hsqldb</groupId>

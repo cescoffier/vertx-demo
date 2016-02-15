@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web consumer</title>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="lib/sockjs.min.js"></script>
+    <script
+            src="node_modules/vertx3-eventbus-client/vertx-eventbus.js"></script>
+</head>
+<body>
+<div id="log"></div>
+
+<script>
+    var eb = new EventBus('/eventbus/');
+    eb.onopen = function () {
+        eb.registerHandler('data', function (err, msg) {
+            console.log("Err", err, "Msg");
+            $('#log').prepend('<div>'
+                    + msg.body.message + '-' + msg.body.from + '</div>');
+        });
+    };
+</script>
+</body>
+</html>
