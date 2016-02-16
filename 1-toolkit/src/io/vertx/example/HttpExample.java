@@ -7,20 +7,12 @@ import io.vertx.core.Vertx;
  */
 public class HttpExample {
 
+  /**
+   * Create vert.x
+   * Create HTTP server (8080)
+   */
   public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
-    vertx.createHttpServer()
-        .requestHandler(
-          request -> request.response().end("Hello, My name is Steem !")
-        )
-        .listen(8080, result -> {
-          if (result.failed()) {
-            System.err.println("D'oh ! something bad happened while starting the HTTP server : " + result.cause()
-                .getMessage());
-          } else {
-            System.out.println("HTTP server started");
-          }
-        });
+
   }
 
 }

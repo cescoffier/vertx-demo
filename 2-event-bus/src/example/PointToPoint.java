@@ -8,18 +8,13 @@ import io.vertx.core.eventbus.EventBus;
  */
 public class PointToPoint {
 
+  /**
+   * Create vert.x
+   * Create consumer on "address"
+   * Periodic sending message on "address"
+   */
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
-
-    EventBus bus = vertx.eventBus();
-
-    bus.consumer("address", message -> {
-       System.out.println("Message received " + message.body() + " (" + Thread.currentThread().getName() + ")");
-    });
-
-    vertx.setPeriodic(1000, l -> {
-       bus.send("address", "hello");
-    });
 
   }
 

@@ -8,17 +8,12 @@ import io.vertx.core.VertxOptions;
  */
 public class Receiver {
 
+  /**
+   * Create clustered vert.x
+   * Register consumer on "data"
+   */
   public static void main(String[] args) {
-    Vertx.clusteredVertx(new VertxOptions(), result -> {
-      if (result.failed()) {
-        System.err.println("Cannot create a clustered vert.x : " + result.cause());
-      } else {
-        Vertx vertx = result.result();
-        vertx.eventBus().consumer("data", message -> {
-           System.out.println("Data received : " + message.body());
-        });
-      }
-    });
+
   }
 
 }

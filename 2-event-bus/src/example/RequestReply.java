@@ -8,22 +8,13 @@ import io.vertx.core.eventbus.EventBus;
  */
 public class RequestReply {
 
+  /**
+   * Create vert.x
+   * Create consumer on "address" reploying
+   * Periodic sending message on "address" with reply handler
+   */
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
-
-    EventBus bus = vertx.eventBus();
-
-    bus.consumer("address", message -> {
-      System.out.println("Message received " + message.body() + " (" + Thread.currentThread().getName() + ")");
-      message.reply("Welcome !");
-    });
-
-    vertx.setPeriodic(1000, l -> {
-      bus.send("address", "hello", reply -> {
-        System.out.println("Reply received : " + reply.result().body());
-      });
-    });
-
   }
 
 }

@@ -7,13 +7,12 @@ import io.vertx.core.Vertx;
  */
 public class MainBlocking {
 
+  /**
+   * Create vert.x
+   * Create periodic with long grace
+   */
   public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
 
-    vertx.setPeriodic(1000, l -> {
-      System.out.println(Thread.currentThread().getName() + " >> called");
-      grace();
-    });
   }
 
   private static void grace() {
