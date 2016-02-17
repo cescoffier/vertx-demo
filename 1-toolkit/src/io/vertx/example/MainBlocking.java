@@ -12,7 +12,11 @@ public class MainBlocking {
    * Create periodic with long grace
    */
   public static void main(String[] args) {
-
+    Vertx vertx = Vertx.vertx();
+    vertx.setPeriodic(1000, l -> {
+      System.out.println("Hello");
+      grace();
+    });
   }
 
   private static void grace() {

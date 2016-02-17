@@ -12,7 +12,18 @@ public class HttpExample {
    * Create HTTP server (8080)
    */
   public static void main(String[] args) {
-
+    Vertx vertx = Vertx.vertx();
+    vertx.createHttpServer()
+        .requestHandler(request -> {
+          request.response().end("Bonsoir !");
+        })
+        .listen(8080, ar -> {
+          if (ar.failed()) {
+            System.err.println("D'oh ! Can't start it : " + ar.cause().getMessage());
+          } else {
+            System.out.println("Started : " + ar.result());
+          }
+        });
   }
 
 }

@@ -15,7 +15,15 @@ public class PointToPoint {
    */
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
+    EventBus bus = vertx.eventBus();
 
+    bus.consumer("data", message -> {
+       System.out.println(message.body() + " / " + Thread.currentThread().getName());
+    });
+
+    vertx.setPeriodic(1000, l -> {
+      bus.publish("data", "hello");
+    });
   }
 
 }

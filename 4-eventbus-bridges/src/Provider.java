@@ -14,7 +14,7 @@ public class Provider {
       } else {
         Vertx vertx = result.result();
         vertx.setPeriodic(3000, l -> {
-          vertx.eventBus().publish("data",
+          vertx.eventBus().send("data",
               new JsonObject()
                 .put("message", "hello")
                 .put("from", "java producer"));

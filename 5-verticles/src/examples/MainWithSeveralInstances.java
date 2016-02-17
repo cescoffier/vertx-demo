@@ -9,6 +9,8 @@ import io.vertx.core.Vertx;
 public class MainWithSeveralInstances {
 
   public static void main(String[] args) {
-    Vertx.vertx().deployVerticle(HttpVerticle.class.getName(), new DeploymentOptions().setInstances(3));
+    Vertx.vertx()
+        .deployVerticle(HttpVerticle.class.getName(),
+            new DeploymentOptions().setInstances(3));
   }
 }
