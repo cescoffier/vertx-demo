@@ -20,16 +20,11 @@ public class RequestReply {
     EventBus bus = vertx.eventBus();
 
     bus.consumer("data", message -> {
-      System.out.println(message.body() + " / " + Thread.currentThread().getName());
 
-      message.reply("pong");
     });
 
     vertx.setPeriodic(1000, l -> {
-      bus.send("data", "hello", reply -> {
-        System.out.println("Got reply : "
-            + reply.result().body());
-      });
+
     });
 
   }

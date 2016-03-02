@@ -27,9 +27,7 @@ public class PublishSubscribe {
       System.out.println("B Received " + message.body());
     });
 
-    vertx.setPeriodic(1000, l -> {
-      bus.publish("data", "hello");
-    });
+
   }
 
 }
