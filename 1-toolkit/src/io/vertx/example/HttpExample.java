@@ -14,14 +14,14 @@ public class HttpExample {
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
     vertx.createHttpServer()
-        .requestHandler(request -> {
-          request.response().end("Bonsoir !");
+        .requestHandler(req -> {
+          req.response().end("Bonjour !");
         })
         .listen(8080, ar -> {
           if (ar.failed()) {
-            System.err.println("D'oh ! Can't start it : " + ar.cause().getMessage());
+            System.out.println("Cannot start... " + ar.cause());
           } else {
-            System.out.println("Started : " + ar.result());
+            System.out.println("Server started");
           }
         });
   }

@@ -19,16 +19,16 @@ public class PublishSubscribe {
     Vertx vertx = Vertx.vertx();
     EventBus bus = vertx.eventBus();
 
-    bus.consumer("address", message -> {
-      System.out.println("Message received by A: " + message.body() + " (" + Thread.currentThread().getName() + ")");
+    bus.consumer("data", message -> {
+      System.out.println("A Received " + message.body());
     });
 
-    bus.consumer("address", message -> {
-      System.out.println("Message received by B : " + message.body() + " (" + Thread.currentThread().getName() + ")");
+    bus.consumer("data", message -> {
+      System.out.println("B Received " + message.body());
     });
 
     vertx.setPeriodic(1000, l -> {
-      bus.publish("address", "hello");
+      bus.publish("data", "hello");
     });
   }
 
