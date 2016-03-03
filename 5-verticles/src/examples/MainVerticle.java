@@ -9,6 +9,7 @@ import io.vertx.core.Vertx;
 public class MainVerticle extends AbstractVerticle {
 
   public static void main(String[] args) {
+
     Vertx.vertx().deployVerticle(MainVerticle.class.getName());
   }
 

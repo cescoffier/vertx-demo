@@ -20,11 +20,13 @@ public class RequestReply {
     EventBus bus = vertx.eventBus();
 
     bus.consumer("data", message -> {
-
+      message.reply("pong");
     });
 
     vertx.setPeriodic(1000, l -> {
-
+      bus.send("data", "ping", ar -> {
+        System.out.println(">> " + ar.result().body());
+      });
     });
 
   }

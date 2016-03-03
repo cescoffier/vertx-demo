@@ -17,6 +17,13 @@ public class PointToPoint {
     Vertx vertx = Vertx.vertx();
     EventBus bus = vertx.eventBus();
 
+    bus.consumer("data", message -> {
+      System.out.println("Received " + message.body() + " / " + Thread.currentThread().getName());
+    });
+
+    vertx.setPeriodic(1000, l -> {
+       bus.send("data", "hello");
+    });
   }
 
 }

@@ -10,7 +10,12 @@ public class Main {
    * Dump thread name
    */
   public static void main(String[] args) {
+    Vertx vertx = Vertx.vertx();
 
+    vertx.setPeriodic(1000, l -> {
+       System.out.println("Hello "
+           + Thread.currentThread().getName());
+    });
   }
 
 }

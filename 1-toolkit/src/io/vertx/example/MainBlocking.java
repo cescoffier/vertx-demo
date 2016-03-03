@@ -13,7 +13,10 @@ public class MainBlocking {
    */
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
-
+    vertx.setPeriodic(1000, l -> {
+      System.out.println("Hello");
+      grace();
+    });
   }
 
   private static void grace() {
