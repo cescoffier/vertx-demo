@@ -15,7 +15,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 public class WebAppVerticle extends AbstractVerticle {
 
   public static void main(String[] args) {
-    //-javaagent:/.../agents/jolokia-jvm.jar=port=7777,host=localhost
+    //-javaagent:/Users/clement/Downloads/jolokia-1.3.2/agents/jolokia-jvm.jar=port=7777,host=localhost
     Vertx.clusteredVertx(new VertxOptions()
         .setMetricsOptions(new DropwizardMetricsOptions().setEnabled(true)
             .setJmxEnabled(true)
@@ -64,7 +64,7 @@ public class WebAppVerticle extends AbstractVerticle {
         .listen(
             // Retrieve the port from the configuration,
             // default to 8080.
-            config().getInteger("http.port", 8080),
+            config().getInteger("http.port", 8090),
             next::handle
         );
   }

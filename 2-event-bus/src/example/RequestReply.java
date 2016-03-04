@@ -20,11 +20,17 @@ public class RequestReply {
     EventBus bus = vertx.eventBus();
 
     bus.consumer("data", message -> {
-
+     // message.reply("pong");
     });
 
     vertx.setPeriodic(1000, l -> {
-
+      bus.send("data", "ping", reply -> {
+         if (reply.failed()) {
+           System.out.println("No reply" + reply.cause());
+         } else {
+           System.out.println(reply.result().body());
+         }
+      });
     });
 
   }
